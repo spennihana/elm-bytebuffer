@@ -1,0 +1,6 @@
+elm-stuff/
+.DS_Store
+index.js
+test/index.js
+.idea/
+*iml
