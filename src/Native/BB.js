@@ -112,10 +112,10 @@ b.view[g++]=f}b.limit=g;return b};var n=function(){var a={MAX_CODEPOINT:1114111,
 e=null):c(d);null!==e&&c(e)},UTF8toUTF16:function(a,c){var d=null;"number"===typeof a&&(d=a,a=function(){return null});for(;null!==d||null!==(d=a());)65535>=d?c(d):(d-=65536,c((d>>10)+55296),c(d%1024+56320)),d=null},encodeUTF16toUTF8:function(b,c){a.UTF16toUTF8(b,function(b){a.encodeUTF8(b,c)})},decodeUTF8toUTF16:function(b,c){a.decodeUTF8(b,function(b){a.UTF8toUTF16(b,c)})},calculateCodePoint:function(a){return 128>a?1:2048>a?2:65536>a?3:4},calculateUTF8:function(a){for(var c,d=0;null!==(c=a());)d+=
 128>c?1:2048>c?2:65536>c?3:4;return d},calculateUTF16asUTF8:function(b){var c=0,d=0;a.UTF16toUTF8(b,function(a){++c;d+=128>a?1:2048>a?2:65536>a?3:4});return[c,d]}};return a}();e.toUTF8=function(a,b){"undefined"===typeof a&&(a=this.offset);"undefined"===typeof b&&(b=this.limit);if(!this.noAssert){if("number"!==typeof a||0!==a%1)throw TypeError("Illegal begin: Not an integer");a>>>=0;if("number"!==typeof b||0!==b%1)throw TypeError("Illegal end: Not an integer");b>>>=0;if(0>a||a>b||b>this.buffer.byteLength)throw RangeError("Illegal range: 0 <= "+
 a+" <= "+b+" <= "+this.buffer.byteLength);}var c;try{n.decodeUTF8toUTF16(function(){return a<b?this.view[a++]:null}.bind(this),c=r())}catch(d){if(a!==b)throw RangeError("Illegal range: Truncated data, "+a+" != "+b);}return c()};h.fromUTF8=function(a,b,c){if(!c&&"string"!==typeof a)throw TypeError("Illegal str: Not a string");var d=new h(n.calculateUTF16asUTF8(m(a),!0)[1],b,c),e=0;n.encodeUTF16toUTF8(m(a),function(a){d.view[e++]=a});d.limit=e;return d};return h});
-var _spennihana$elm_bytebuffer$Native_BB = function() {
+var _spennihana$bronti$Native_BB = function() {
   // static methods
   var make = _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
-  	callback(_elm_lang$core$Native_Scheduler.succeed(new dcodeIO.ByteBuffer()));
+    callback(_elm_lang$core$Native_Scheduler.succeed(new dcodeIO.ByteBuffer().order(true)));
   });
 
   function wrap(buffer, encoding, littleEndian, noAssert) {
@@ -136,24 +136,30 @@ var _spennihana$elm_bytebuffer$Native_BB = function() {
   function reset(       bb)    { bb.reset(); return bb;  }
 
   // READERS
-  function readByte(   bb) { return bb.readByte(bb.offset);    }
-  function readCString(bb) { return bb.readCString(bb.offset); }
-  function readDouble( bb) { return bb.readDouble(bb.offset);  }
-  function readFloat(  bb) { return bb.readFloat(bb.offset);   }
-  function readIString(bb) { return bb.readIString(bb.offset); }
-  function readLong(   bb) { return bb.readLong(bb.offset);    }
-  function readInt(    bb) { return bb.readInt(bb.offset);     }
-  function readShort(  bb) { return bb.readSHort(bb.offset);   }
+  function readByte(   bb) { return bb.readByte();    }
+  function readString(bb) {
+    var len = bb.readInt();
+    var sbits = [];
+    while(len-- > 0) sbits.push(bb.readByte());
+    return String.fromCharCode.apply(null, sbits);
+  }
+  function readDouble( bb) { return bb.readDouble();  }
+  function readFloat(  bb) { return bb.readFloat();   }
+  function readLong(   bb) { return bb.readLong();    }
+  function readInt(    bb) { return bb.readInt();     }
+  function readShort(  bb) { return bb.readSHort();   }
 
   // WRITERS
-  function writeByte(   bb, b  ) { bb.writeByte(b, bb.offset);      }
-  function writeCString(bb, str) { bb.writeCString(str, bb.offset); }
-  function writeDouble( bb, d  ) { bb.writeDouble(d, bb.offset);    }
-  function writeFloat(  bb, f  ) { bb.writeFloat(f, bb.offset);     }
-  function writeIString(bb, str) { bb.writeIString(str, bb.offset); }
-  function writeLong(   bb, l  ) { bb.writeLong(l, bb.offset);      }
-  function writeInt(    bb, l  ) { bb.writeInt(l, bb.offset);       }
-  function writeShort(  bb, s  ) { bb.writeSHort(s, bb.offset);     }
+  function writeByte(   bb, b  ) { bb.writeByte(b, bb.offset);   }
+  function writeString( bb, str) {
+    bb.writeInt(str.length);
+    for(var i=0;i < str.length; ++i) bb.writeByte(str.charCodeAt(i))
+  }
+  function writeDouble( bb, d  ) { bb.writeDouble(d, bb.offset); }
+  function writeFloat(  bb, f  ) { bb.writeFloat(f, bb.offset);  }
+  function writeLong(   bb, l  ) { bb.writeLong(l, bb.offset);   }
+  function writeInt(    bb, l  ) { bb.writeInt(l, bb.offset);    }
+  function writeShort(  bb, s  ) { bb.writeSHort(s, bb.offset);  }
 
   // exposed methods
   return {
@@ -171,21 +177,20 @@ var _spennihana$elm_bytebuffer$Native_BB = function() {
     remaining: remaining,
     reset: reset,
     readByte: readByte,
-    readCString: readCString,
+    readString: readString,
     readDouble: readDouble,
     readFloat: readFloat,
-    readIString: readIString,
     readLong: readLong,
     readInt: readInt,
     readShort: readShort,
     writeByte: F2(writeByte),
-    writeCString: F2(writeCString),
+    writeString: F2(writeString),
     writeDouble: F2(writeDouble),
     writeFloat: F2(writeFloat),
-    writeIString: F2(writeIString),
     writeLong: F2(writeLong),
     writeInt: F2(writeInt),
     writeShort: F2(writeShort)
   };
 
 }();
+`

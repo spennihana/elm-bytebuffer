@@ -1,4 +1,4 @@
-module ByteBuffer exposing (..)
+module ZElmQ.ByteBuffer exposing (..)
 
 {-| Elm bindings for ByteBuffer
 
@@ -9,10 +9,10 @@ module ByteBuffer exposing (..)
 @docs make, wrap, limit, littleEndian, markedOffset, noAssert, offset, capacity, clear, flip, order, remaining, reset
 
 # Readers
-@docs readByte, readCString, readDouble, readFloat, readIString, readLong, readInt, readShort
+@docs readByte, readString, readDouble, readFloat, readLong, readInt, readShort
 
 # Writers
-@docs writeByte, writeCString, writeDouble, writeFloat, writeIString, writeLong, writeInt, writeShort
+@docs writeByte, writeString, writeDouble, writeFloat, writeLong, writeInt, writeShort
 -}
 
 import Task exposing (Task)
@@ -83,9 +83,11 @@ reset = Native.BB.reset
 readByte: ByteBuffer -> Int
 readByte = Native.BB.readByte
 
-{-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferreadcstringoffset -}
-readCString: ByteBuffer -> Int
-readCString = Native.BB.readCString
+{-| Custom string reader; reads an Int for numbytes then reads those bytes into array
+    to create the string.
+-}
+readString: ByteBuffer -> String
+readString = Native.BB.readString
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferreaddoubleoffset -}
 readDouble: ByteBuffer -> Float
@@ -94,10 +96,6 @@ readDouble = Native.BB.readDouble
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferreadfloatoffset -}
 readFloat: ByteBuffer -> Float
 readFloat = Native.BB.readFloat
-
-{-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferreadistringoffset -}
-readIString: ByteBuffer -> String
-readIString = Native.BB.readIString
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferreadintoffset -}
 readInt: ByteBuffer -> Int
@@ -117,9 +115,9 @@ readShort = Native.BB.readShort
 writeByte: ByteBuffer -> Int -> ByteBuffer
 writeByte = Native.BB.writeByte
 
-{-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritecstringstr-offset -}
-writeCString: ByteBuffer -> String -> ByteBuffer
-writeCString = Native.BB.writeCString
+{-| Custom string writer -}
+writeString: ByteBuffer -> String -> ByteBuffer
+writeString = Native.BB.writeString
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritedoublevalue-offset -}
 writeDouble: ByteBuffer -> Float ->  ByteBuffer
@@ -128,10 +126,6 @@ writeDouble = Native.BB.writeDouble
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritefloatvalue-offset -}
 writeFloat: ByteBuffer -> Float -> ByteBuffer
 writeFloat = Native.BB.writeFloat
-
-{-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwriteistringstr-offset -}
-writeIString: ByteBuffer -> String -> ByteBuffer
-writeIString = Native.BB.writeIString
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwriteintvalue-offset -}
 writeInt: ByteBuffer -> Int -> ByteBuffer
