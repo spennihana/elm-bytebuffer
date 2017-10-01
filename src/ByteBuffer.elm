@@ -112,29 +112,29 @@ readShort = Native.BB.readShort
 -- WRITERS
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritebytevalue-offset -}
-writeByte: ByteBuffer -> Int -> ByteBuffer
+writeByte: Int -> ByteBuffer -> ByteBuffer
 writeByte = Native.BB.writeByte
 
 {-| Custom string writer -}
-writeString: ByteBuffer -> String -> ByteBuffer
+writeString: String -> ByteBuffer -> ByteBuffer
 writeString = Native.BB.writeString
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritedoublevalue-offset -}
-writeDouble: ByteBuffer -> Float ->  ByteBuffer
+writeDouble: Float -> ByteBuffer ->  ByteBuffer
 writeDouble = Native.BB.writeDouble
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritefloatvalue-offset -}
-writeFloat: ByteBuffer -> Float -> ByteBuffer
+writeFloat: Float -> ByteBuffer -> ByteBuffer
 writeFloat = Native.BB.writeFloat
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwriteintvalue-offset -}
-writeInt: ByteBuffer -> Int -> ByteBuffer
+writeInt: Int -> ByteBuffer -> ByteBuffer
 writeInt = Native.BB.writeInt
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwritelongvalue-offset -}
-writeLong: ByteBuffer -> Int -> ByteBuffer
+writeLong: Int -> ByteBuffer -> ByteBuffer
 writeLong = Native.BB.writeLong
 
 {-| https://github.com/dcodeIO/bytebuffer.js/wiki/API#bytebufferwriteshortvalue-offset -}
-writeShort: ByteBuffer -> Int -> ByteBuffer
+writeShort: Int -> ByteBuffer -> ByteBuffer
 writeShort = Native.BB.writeShort

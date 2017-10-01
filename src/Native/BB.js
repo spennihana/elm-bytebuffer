@@ -150,16 +150,17 @@ var _spennihana$bronti$Native_BB = function() {
   function readShort(  bb) { return bb.readSHort();   }
 
   // WRITERS
-  function writeByte(   bb, b  ) { bb.writeByte(b, bb.offset);   }
-  function writeString( bb, str) {
+  function writeByte(   b, bb  ) { bb.writeByte(b, bb.offset); return bb; }
+  function writeString( str, bb) {
     bb.writeInt(str.length);
     for(var i=0;i < str.length; ++i) bb.writeByte(str.charCodeAt(i))
+    return bb;
   }
-  function writeDouble( bb, d  ) { bb.writeDouble(d, bb.offset); }
-  function writeFloat(  bb, f  ) { bb.writeFloat(f, bb.offset);  }
-  function writeLong(   bb, l  ) { bb.writeLong(l, bb.offset);   }
-  function writeInt(    bb, l  ) { bb.writeInt(l, bb.offset);    }
-  function writeShort(  bb, s  ) { bb.writeSHort(s, bb.offset);  }
+  function writeDouble( d, bb  ) { bb.writeDouble(d, bb.offset); return bb; }
+  function writeFloat(  f, bb  ) { bb.writeFloat( f, bb.offset); return bb; }
+  function writeLong(   l, bb  ) { bb.writeLong(  l, bb.offset); return bb; }
+  function writeInt(    l, bb  ) { bb.writeInt(   l, bb.offset); return bb; }
+  function writeShort(  s, bb  ) { bb.writeSHort( s, bb.offset); return bb; }
 
   // exposed methods
   return {
@@ -193,4 +194,4 @@ var _spennihana$bronti$Native_BB = function() {
   };
 
 }();
-`
+
